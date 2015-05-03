@@ -63,7 +63,7 @@ namespace WindowsFormsApplication1
 
             Parallel.Invoke(() =>
             {
-                Operations.RainbowFilterParallel(image);
+                image = Operations.RainbowFilterParallelLockbits(image);
                 tiempo1 = temporizador.ElapsedMilliseconds;
             });
             temporizador.Stop();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace WindowsFormsApplication1
 {
@@ -49,100 +50,55 @@ namespace WindowsFormsApplication1
             return temp;
         }
 
-
-        public static Bitmap RainbowFilterParallel(Bitmap bmp)
+        public static Bitmap RainbowFilterParallelLockbits(Bitmap bmp)
         {
+            Bitmap temp = null;
+            temp = new Bitmap(bmp);
+            int raz = bmp.Height / 4;
+            int height = bmp.Height;
+            int width = bmp.Width;
+            Rectangle rect = new Rectangle(Point.Empty, bmp.Size);
 
-            Bitmap temp = new Bitmap(bmp.Width, bmp.Height);
-            int raz = bmp.Width / 5;
+            BitmapData bmpData = temp.LockBits(rect, ImageLockMode.ReadOnly, temp.PixelFormat);
+            int bpp = (temp.PixelFormat == PixelFormat.Format32bppArgb) ? 4 : 3;
+            int size = bmpData.Stride * bmpData.Height;
+            byte[] data = new byte[size];
+            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, data, 0, size);
 
-            Parallel.For(0, bmp.Width, i =>
+            var options = new ParallelOptions();
+            int maxCore = Environment.ProcessorCount - 1;
+            options.MaxDegreeOfParallelism = maxCore > 0 ? maxCore : 1;
+
+            Parallel.For(0, height, options, y =>
             {
-                //Parallel.For(0, bmp.Height, x =>
-                //{
-
-                    //if (i < (raz))
-                    //{
-                    //    temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R / 5, bmp.GetPixel(i, x).G, bmp.GetPixel(i, x).B));
-                    //}
-                    //else if (i < (raz * 2))
-                    //{
-                    //    temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R, bmp.GetPixel(i, x).G / 5, bmp.GetPixel(i, x).B));
-                    //}
-                    //else if (i < (raz * 3))
-                    //{
-                    //    temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R, bmp.GetPixel(i, x).G, bmp.GetPixel(i, x).B / 5));
-                    //}
-                    //else if (i < (raz * 4))
-                    //{
-                    //    temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R / 5, bmp.GetPixel(i, x).G, bmp.GetPixel(i, x).B / 5));
-                    //}
-                    //else
-                    //{
-                    //    temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R / 5, bmp.GetPixel(i, x).G / 5, bmp.GetPixel(i, x).B / 5));
-                  //  }
-
-                //});
-
-                for (int x = 0; x < bmp.Height; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    var t1 = Task.Factory.StartNew(() => DoSomeToBlue(temp, bmp, i, x, raz));
-                }
-                    
-                //for (int x = 0; x < bmp.Height; x++)
-                //{
-                //    var t1 = Task.Factory.StartNew(() => DoSomeToBlue(temp, bmp, i, x, raz));
-                //    var t2 = Task.Factory.StartNew(() => DoSomeToViolet(temp, bmp, i, x, raz));
-                //    var t3 = Task.Factory.StartNew(() => DoSomeToYellow(temp, bmp, i, x, raz));
-                //    var t4 = Task.Factory.StartNew(() => DoSomeToGreen(temp, bmp, i, x, raz));
-                //    var t5 = Task.Factory.StartNew(() => DoSomeToBlack(temp, bmp, i, x, raz));
-                //}
-                
+                    {
+                        int index = y * bmpData.Stride + x * bpp;
+
+                        if (y < (raz)) data[index + 2] = (byte)(data[index + 2] / 5);
+                        else if (y < (raz * 2)) data[index + 1] = (byte)(data[index + 1] / 5);
+                        else if (y < (raz * 3)) data[index] = (byte)(data[index] / 5);
+                        else if (y < (raz * 4))
+                        {
+                            data[index + 2] = (byte)(data[index + 2] / 5);
+                            data[index] = (byte)(data[index] / 5);
+                        }
+                        else
+                        {
+                            data[index + 2] = (byte)(data[index + 2] / 5);
+                            data[index + 1] = (byte)(data[index + 1] / 5);
+                            data[index] = (byte)(data[index] / 5);
+                        }
+                    };
+                };
+
             });
+            temp.UnlockBits(bmpData);
             return temp;
         }
 
-
-
-        static void DoSomeToBlue(Bitmap temp, Bitmap bmp, int i, int x, int raz)
-        {
-            //if (i < raz)
-            //{
-                temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R / 5, bmp.GetPixel(i, x).G, bmp.GetPixel(i, x).B));     
-            //}   
-        }
-
-        static void DoSomeToViolet(Bitmap temp, Bitmap bmp, int i, int x, int raz)
-        {
-            if (i < (raz * 2))
-            {
-                temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R, bmp.GetPixel(i, x).G / 5, bmp.GetPixel(i, x).B));
-            }
-        }
-
-        static void DoSomeToYellow(Bitmap temp, Bitmap bmp, int i, int x, int raz)
-        {
-            if (i < (raz * 3))
-            {
-                temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R, bmp.GetPixel(i, x).G, bmp.GetPixel(i, x).B / 5));
-            }
-        }
-
-        static void DoSomeToGreen(Bitmap temp, Bitmap bmp, int i, int x, int raz)
-        {
-            if (i < (raz * 4))
-            {
-                temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R / 5, bmp.GetPixel(i, x).G, bmp.GetPixel(i, x).B / 5));
-            }
-        }
-
-        static void DoSomeToBlack(Bitmap temp, Bitmap bmp, int i, int x, int raz)
-        {
-            if (i < (raz * 5))
-            {
-                temp.SetPixel(i, x, Color.FromArgb(bmp.GetPixel(i, x).R / 5, bmp.GetPixel(i, x).G / 5, bmp.GetPixel(i, x).B / 5));
-            }
-        }
-
+        
+        
     }
 }
