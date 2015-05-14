@@ -16,7 +16,9 @@ namespace WindowsFormsApplication1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            /// The line needs to be changed
+            Application.Run(new TextProcessing());
         }
     }
 }

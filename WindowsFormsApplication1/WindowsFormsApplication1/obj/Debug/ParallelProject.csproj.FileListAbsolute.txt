@@ -1,0 +1,11 @@
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\ParallelProject.csprojResolveAssemblyReference.cache
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.ImageProcesing.resources
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Main.resources
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\ParallelProject.csproj.GenerateResource.Cache
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Users\Salchi Man\Documents\GitHub\Paralelismo-Arquitectura\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.TextProcessing.resources
