@@ -18,7 +18,7 @@ namespace WindowsFormsApplication1
             Application.SetCompatibleTextRenderingDefault(false);
 
             /// The line needs to be changed
-            Application.Run(new TextProcessing());
+            Application.Run(new Main());
         }
     }
 }

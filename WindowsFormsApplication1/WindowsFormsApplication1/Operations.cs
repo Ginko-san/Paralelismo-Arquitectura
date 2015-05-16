@@ -652,60 +652,21 @@ namespace WindowsFormsApplication1
 
         ///-------------------------------------------- Text Processing Parallel and Secuential Section (All Methods) -----------------------------------------------
 
-
-        public static String[] loadTextLines(System.IO.StreamReader sr)
+        public static String[] splitLines(String lines)
         {
-            String[] txtLines = new String[1];
 
-            ///String line = sr.ReadLine();
-            String line;
+            char[] delimiterChars = { ' ', ',', '.', ':', '\t', '\n', '\a', '\f', '\r', '/' };
 
-            while ((line = sr.ReadLine()) != null)
-            {
+            String[] words = lines.Split(delimiterChars);
 
-            }
-
-
-
-
-
-
-
-            for (int i = 0; line != null; i++)
-            {
-                try
-                {
-                    /// add a line to the array
-                    txtLines[i] = line;
-
-                    ///System.Windows.Forms.MessageBox.Show("linea " + line, "Aviso", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
-
-
-                    /// Read the next line
-                    line = sr.ReadLine();
-
-                }
-                catch (Exception e)
-                {
-                    System.Windows.Forms.MessageBox.Show("Error: " + e, "Sorry!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                }
-                
-            }
-
-            sr.Close();
-
-            return txtLines;
+            return words;
         }
 
-        public static String  wordMostLargeInLinesSecuential(String lines)
+        public static String  wordMostLargeInLinesSecuential(String[] words)
         {
             String word = "";
-            char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
-            
-
             try
             {
-                String[] words = lines.Split(delimiterChars);
 
                 foreach (String wordInProcess in words)
                 {
@@ -720,5 +681,93 @@ namespace WindowsFormsApplication1
             return word;
         }
 
+
+        public static String[] nWordsMostCommonSecuential(String lineas, String[] words, int n)
+        {
+            foreach (string x in words)
+            {
+                int cant = lineas.LongCount(palabra=> palabra.ToString() == x);
+            }
+
+
+
+
+
+
+
+
+            String[] nWordsMostCommon = new String[n+1];
+            String[] WordsToReturn = new String[n];
+            String word = "";
+
+            int inc = 0;
+
+            while (inc <= n)
+            {
+                int wordMostUsedBef = 0;
+
+                for(int i = 0; words.Length > i; i++)
+                {
+                    
+                    foreach(String comprove in nWordsMostCommon){
+                        if (words[i] == comprove)
+                            goto Next;
+
+                    }
+
+                    int cont = 0;
+                    foreach (String wordToCompare in words)
+                    {
+                        if (wordToCompare == words[i])
+                        {
+                            cont++;
+                        }
+
+                    }
+                    if (words[i] != "\n")
+                    {
+                        if (wordMostUsedBef < cont)
+                        {
+                            word = words[i];
+                            wordMostUsedBef = cont;
+                        }
+                    }
+
+                    
+
+                    Next:
+                        i++;
+
+                }
+
+                nWordsMostCommon[inc] = word; 
+
+                inc++;
+            }
+
+            for (int i = 0; nWordsMostCommon.Length > i; i++)
+            {
+                if (!(i == 0))
+                {
+                    WordsToReturn[i - 1] = nWordsMostCommon[i];
+                }
+            }
+            return WordsToReturn;
+        }
+
+
+        public static int wordNTimesSecuential(String[] words, String reference)
+        {
+            int numberOfTimes = 0;
+
+            foreach (String inProcess in words)
+            {
+                if (inProcess.Equals(reference)){
+                    numberOfTimes++;
+                }                
+            }
+
+            return numberOfTimes;
+        }
     }
 }
